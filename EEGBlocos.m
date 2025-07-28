@@ -22,16 +22,16 @@ marcBa3=marcadores(47:55);
 marcBt4=marcadores(56:64);
 marcBa4=marcadores(65:73);
 
-marcBt1 = [marcBt1 marcBt1(end)+10];
-marcBt2 = [marcBt2 marcBt2(end)+10];
-marcBt3 = [marcBt3 marcBt3(end)+10];
-marcBt4 = [marcBt4 marcBt4(end)+10];
-marcBa1 = [marcBa1 marcBa1(end)+10];
-marcBa2 = [marcBa2 marcBa2(end)+10];
-marcBa3 = [marcBa3 marcBa3(end)+10];
-marcBa4 = [marcBa4 marcBa4(end)+10];
+marcBt1 = [marcBt1 marcBt1(end)+12];
+marcBt2 = [marcBt2 marcBt2(end)+12];
+marcBt3 = [marcBt3 marcBt3(end)+12];
+marcBt4 = [marcBt4 marcBt4(end)+12];
+marcBa1 = [marcBa1 marcBa1(end)+12];
+marcBa2 = [marcBa2 marcBa2(end)+12];
+marcBa3 = [marcBa3 marcBa3(end)+12];
+marcBa4 = [marcBa4 marcBa4(end)+12];
 
-%getBloco pega um bloco selecionado do sinal, +10 é adicionado para incluir
+%getBloco pega um bloco selecionado do sinal, +12 é adicionado para incluir
 %o último período de neutro do bloco
 [blocos.bloco_ternura1,blocos.t_bloco_ternura1]=getBloco(sinal_filtrado_final,t_sub,marcBt1);
 [blocos.bloco_ternura2,blocos.t_bloco_ternura2]=getBloco(sinal_filtrado_final,t_sub,marcBt2);

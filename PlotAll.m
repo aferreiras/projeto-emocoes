@@ -19,4 +19,3 @@ for i = 1:15
     xlabel('Tempo (s)'); ylabel('Amplitude');
     hold off    
 end
-

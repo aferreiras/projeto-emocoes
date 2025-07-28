@@ -21,8 +21,8 @@ end
 save(char("EEG-SUBAMOSTRADO\Bandas\"+banda+"\psd\Subject"+subject_number+"_"+ banda+"_psd.mat"),'sinal_psd')
 end
 %%
-% [sinal_psd_teste, w] = pwelch(eeg_teta.bloco_ternura1.ternura1, janela, noverlap);
-freq = linspace(0, 125, length(sinal_psd_teste));
+
+freq = linspace(0, 125, length(sinal_psd.bloco_ternura1.ternura1));
 % Plot em escala logarítmica (dB/Hz)
 figure;
 plot(freq, 10*log10(sinal_psd.bloco_ternura1.ternura3)); %Colocando em dB

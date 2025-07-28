@@ -2,43 +2,55 @@ load('labels');
 M = ExtractMontage('TCC\CSDtoolbox\10-5-System_Mastoids_EGI129.csd',labels');
 [G,H] = GetGH(M);
 %%
-subject_number = "15";
-eeg_file_path = "EEG dividido em períodos\periodos_EEG_Subject" + subject_number + ".mat";
-load(char(eeg_file_path));
-eeg_csd = periodos;
-blocos = fieldnames(periodos);
-for i=1:length(blocos)
-    bloco = blocos{i};
-    trechos = fieldnames(periodos.(char(bloco)));
-    for j=1:length(trechos)
-        trecho = trechos(j);
-        X = CSD(periodos.(char(bloco)).(char(trecho))',G,H);
-        eeg_csd.(char(bloco)).(char(trecho))= X';
-    end    
+for subject_number = 1:15
+%     subject_number = "1";
+    eeg_file_path = "EEG dividido em períodos\periodos_EEG_Subject" + subject_number + ".mat";
+    load(char(eeg_file_path));
+    eeg_csd = periodos;
+    blocos = fieldnames(periodos);
+    for i=1:length(blocos)
+       bloco = blocos{i};
+        trechos = fieldnames(periodos.(char(bloco)));
+        for j=1:length(trechos)
+            trecho = trechos(j);
+            X = CSD(periodos.(char(bloco)).(char(trecho))',G,H);
+          eeg_csd.(char(bloco)).(char(trecho))= X';
+        end    
+    end
+    subject_number
+    [filename, path] = uiputfile('*.mat','Salvar como');
+    save(fullfile(path,filename),'eeg_csd');
 end
-% [filename, path] = uiputfile('*.mat','Salvar como');
-% save(fullfile(path,filename),'eeg_csd');
 %%
+subject_number = "1";
+eeg_csd_path = "EEG com CSD\Subject" + subject_number + "_CSD.mat";
+load(char(eeg_csd_path));
+eeg_sem_csd_path = "EEG dividido em períodos\periodos_EEG_Subject" + subject_number + ".mat";
+load(char(eeg_sem_csd_path));
 load('locations');
-csd_data = eeg_csd.bloco_angustia1.angustia1;
-tempo_selecionado = 11000; % ms
+load('labels');
+csd_data = eeg_csd.bloco_angustia1.angustia1;% Sinal pós filtro espacial
+tempo_selecionado = 44; % s
 t = ((0:length(csd_data)-1)*(1/250));
 [~, idx_tempo] = min(abs(t' - tempo_selecionado));
 
 topoplot(csd_data(idx_tempo,:), locations, ...
-    'style', 'fill', ...       % Preenchimento colorido
-    'electrodes', 'labelpoint',... % Mostra rótulos dos eletrodos
-    'maplimits', 'absmax');    % Escala simétrica (recomendado para CSD)
-title(['Topografia do CSD em ' num2str(tempo_selecionado) ' ms']);
+    'style', 'fill', ...       % Colorido
+    'electrodes', 'labelpoint',... % Rótulos
+    'maplimits', 'absmax');    % Escala simétrica
+title(['Topografia do CSD em ' num2str(tempo_selecionado) ' s']);
 
-data = periodos.bloco_angustia1.angustia1;
+% canais = [14,49,6,26,27,29];
+% eegPlot(t(idx_tempo-5:idx_tempo),csd_data(idx_tempo-5:idx_tempo,canais), length(canais), 0,labels(canais));
+
+data = periodos.bloco_angustia1.angustia1; % Sinal sem filtro espacial para comparação
 t = ((0:length(data)-1)*(1/250));
 [~, idx_tempo] = min(abs(t' - tempo_selecionado));
 figure;
 topoplot(data(idx_tempo,:), locations, ...
-    'style', 'fill', ...       % Preenchimento colorido
-    'electrodes', 'labelpoint', ... % Mostra rótulos dos eletrodos
-    'maplimits', 'absmax');    % Escala simétrica (recomendado para CSD)
+    'style', 'fill', ...        % Colorido
+    'electrodes', 'labelpoint', ... % Rótulos
+    'maplimits', 'absmax');    % Escala simétrica
 title(['Topografia original em ' num2str(tempo_selecionado) ' ms']);
 
 % E = labels';
